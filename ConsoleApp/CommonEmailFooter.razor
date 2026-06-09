@@ -1,0 +1,7 @@
+<div>Sent: @DateOnly.FromDateTime(Date).ToString("o")</div>
+
+@code
+{
+	[Parameter, EditorRequired]
+	public required DateTime Date { get; init; }
+}
