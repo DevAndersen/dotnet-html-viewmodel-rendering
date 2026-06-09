@@ -15,13 +15,13 @@ public class HtmlRenderingService
         _htmlRenderer = htmlRenderer;
     }
 
-    public async Task<string> RenderComponentAsync<TComponent, TViewModel>(TViewModel viewModel)
+    public Task<string> RenderComponentAsync<TComponent, TViewModel>(TViewModel viewModel)
         where TComponent : IComponent, TViewModel
     {
         IDictionary<string, object?> dictionary = CreatePropertyDictionary(viewModel);
         ParameterView parameters = ParameterView.FromDictionary(dictionary);
 
-        return await _htmlRenderer.Dispatcher.InvokeAsync(async () =>
+        return _htmlRenderer.Dispatcher.InvokeAsync(async () =>
         {
             HtmlRootComponent component = await _htmlRenderer.RenderComponentAsync<TComponent>(parameters);
             return component.ToHtmlString();
@@ -35,7 +35,9 @@ public class HtmlRenderingService
             return ImmutableDictionary<string, object?>.Empty;
         }
 
-        PropertyInfo[] properties = model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        return properties.ToDictionary(k => k.Name, v => v.GetValue(model));
+        PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        return properties.ToDictionary(
+            k => k.Name,
+            v => v.GetValue(model));
     }
 }
