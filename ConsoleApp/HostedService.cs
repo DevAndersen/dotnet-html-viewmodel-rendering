@@ -24,7 +24,7 @@ public class HostedService : IHostedService
         string html = await _htmlRenderingService.RenderComponentAsync<Email, IEmailViewModel>(viewModel);
         Console.WriteLine(html);
 
-        await _host.StopAsync();
+        await _host.StopAsync(cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
