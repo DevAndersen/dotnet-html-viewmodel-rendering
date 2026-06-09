@@ -1,0 +1,16 @@
+@implements IEmailViewModel
+
+<p>Dear @RecipientName</p>
+
+<p>This is test.</p>
+
+<p>Kind regards, @SenderName</p>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public required string RecipientName { get; init; }
+
+    [Parameter, EditorRequired]
+    public required string SenderName { get; init; }
+}
